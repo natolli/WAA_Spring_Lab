@@ -15,7 +15,7 @@ public class PostController {
         this.postService = postService;
     }
 
-    @GetMapping
+    @GetMapping()
     public List<PostDto> getAllPosts() {
         return postService.getAllPosts();
     }
@@ -25,9 +25,9 @@ public class PostController {
         return postService.getPostById(id);
     }
 
-    @PostMapping
-    public PostDto createPost(@RequestBody PostDto postDto) {
-        return postService.createPost(postDto);
+    @PostMapping()
+    public void createPost(@RequestBody PostDto postDto) {
+        postService.createPost(postDto);
     }
 
     @DeleteMapping("/{id}")
