@@ -36,7 +36,6 @@ public class PostServiceImpl implements PostService {
     @Override
     public void createPost(PostDto postDto) {
         Post post = modelMapper.map(postDto, Post.class);
-        post.setId(postRepository.getNextId());
         postRepository.save(post);
     }
 
