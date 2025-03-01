@@ -2,8 +2,11 @@ package com.example.waa_lab_project.service;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
+import com.example.waa_lab_project.aspect.ExecutionTime;
 import com.example.waa_lab_project.model.Post;
 import com.example.waa_lab_project.model.User;
+import com.example.waa_lab_project.repository.ExceptionLogRepository;
+import com.example.waa_lab_project.repository.LoggerRepository;
 import com.example.waa_lab_project.repository.PostRepository;
 import com.example.waa_lab_project.repository.UserRepository;
 
@@ -11,16 +14,21 @@ import com.example.waa_lab_project.repository.UserRepository;
 public class UserService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
+    private final LoggerRepository loggerRepository;
+    private final ExceptionLogRepository exceptionLogRepository;
 
-    public UserService(UserRepository userRepository, PostRepository postRepository) {
+    public UserService(UserRepository userRepository, PostRepository postRepository, LoggerRepository loggerRepository, ExceptionLogRepository exceptionLogRepository) {
         this.userRepository = userRepository;
         this.postRepository = postRepository;
+        this.loggerRepository = loggerRepository;
+        this.exceptionLogRepository = exceptionLogRepository;
     }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
+    @ExecutionTime
     public User getUserById(long id) {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
     }
