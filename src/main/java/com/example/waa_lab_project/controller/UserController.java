@@ -1,6 +1,7 @@
 package com.example.waa_lab_project.controller;
 
 import java.util.List;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,5 +56,11 @@ public class UserController {
                 .filter(c -> c.getId() == commentId)
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Comment not found"));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/admin")
+    public String adminAccess() {
+        return "Admin Access Granted";
     }
 }

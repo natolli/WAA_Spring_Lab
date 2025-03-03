@@ -1,6 +1,8 @@
 package com.example.waa_lab_project.service;
 
 import java.util.List;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.example.waa_lab_project.aspect.ExecutionTime;
 import com.example.waa_lab_project.model.Post;
@@ -43,5 +45,13 @@ public class UserService {
 
     public List<Post> getPostsByTitle(String title) {
         return postRepository.findByTitleContaining(title);
+    }
+
+    public void createPost(Post post) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        post.setUser(user);
+        postRepository.save(post);
     }
 }
